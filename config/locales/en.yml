@@ -1,0 +1,10 @@
+# English strings go here for Rails i18n
+en:
+  project_module_rqre: "Redmine questionnaire plugin"
+  permission_rqre_board_view: "view"
+  permission_rqre_board_edit: "edit"
+  permission_rqre_setting: "setting"
+  
+  label_rqre: "Questionnaire plugin"
+  label_rqre_gb1: "Grobal setting 1"
+  label_rqre_setting_tracker_id: "Tracker"

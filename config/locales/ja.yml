@@ -1,0 +1,10 @@
+# 日本語 for Rails i18n
+ja:
+  project_module_rqre: "アンケートプラグイン"
+  permission_rqre_board_view: "表示"
+  permission_rqre_board_edit: "編集"
+  permission_rqre_setting: "設定"
+  
+  label_rqre: "アンケート"
+  label_rqre_gb1: "グローバル設定1"
+  label_rqre_setting_tracker_id: "Tracker"
