@@ -5,7 +5,7 @@ module RqreProjectsHelperPatch
 
     def project_settings_tabs
       tabs = super
-      return tabs unless @project.module_enabled?(:redmine_empty_plugin)
+      return tabs unless @project.module_enabled?(:redmine_questionnaire_plugin)
 
       tabs.tap { |t| t << append_rqre_tab }.compact
     end

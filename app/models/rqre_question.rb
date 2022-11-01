@@ -1,6 +1,6 @@
 class RqreQuestion < ActiveRecord::Base
   include Redmine::SafeAttributes
-  belongs_to :questionnaire, dependent: :destroy
+  belongs_to :rqre_questionnaire, dependent: :destroy
   
 
   #def self.find_by_id(questionnaire_id)

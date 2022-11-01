@@ -9,11 +9,15 @@ en:
   label_rqre_gb1: "Grobal setting 1"
   label_rqre_setting_tracker_id: "Tracker"
 
-  label_rqre_title: Title
-  label_rqre_end_datetime: End Datetime
-  label_rqre_new: create new
-  label_rqre_vote: vote
-  label_rqre_note: note
-  label_rqre_description: Description
-  label_rqre_revote: Revote
-  label_rqre_end: End Date
+  label_rqre_new: "create new"
+  label_rqre_edit: "edit"
+  label_rqre_edit: "delete"
+  label_rqre_delete_message: "Confirm delete"
+  label_rqre_title: "Title"
+  label_rqre_end_datetime: "End Datetime"
+  label_rqre_vote: "vote"
+  label_rqre_note: "note"
+  label_rqre_description: "Description"
+  label_rqre_revote: "Revote"
+  label_rqre_end: "End Date"
+  label_rqre_dtype: "Data type"

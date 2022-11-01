@@ -1,0 +1,12 @@
+<div class='rqre_question'>
+
+<h2>Question Form</h2>
+  <%= form_for @rqre_question, url: rqre_question_path(@rqre_question) do %>
+  <div class="box tabular">
+    <%= hidden_field_tag('rqre_question[rqre_questionnaire_id]', @rqre_question['questionnaire_id']) %>
+    <p><%= label_tag('rqre_question[title]', l(:label_rqre_title)) %><%= text_field_tag('rqre_question[title]', @rqre_question['title']) %></p>
+    <p><%= label_tag('rqre_question[dtype]', l(:label_rqre_dtype)) %><%= text_field_tag('rqre_question[dtype]', @rqre_question['dtype']) %></p>
+    <%= submit_tag l(:button_save) %>
+  </div>
+  <% end %>
+</div>

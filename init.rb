@@ -16,7 +16,6 @@ Redmine::Plugin.register :redmine_questionnaire_plugin do
   # add tab - project module
   menu :project_menu, :rqre_questionnaires, {:controller => 'rqre_questionnaires', :action => 'index' }, :caption => :label_rqre, :param => :project_id
   
-  
   # setting
   settings  partial: 'rqre_global_settings/show',
             default: {
