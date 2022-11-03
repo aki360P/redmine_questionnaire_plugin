@@ -6,6 +6,14 @@ class RqreVotesController < ApplicationController
   #before_action :find_rqre_question
   #before_action :authorize
 
+  def index
+    rqre_questionnaire_id = params[:id]
+    @rqre_questions = RqreQuestion.where(questionnaire_id: rqre_questionnaire_id)
+    @rqre_votes = RqreVote.where(question_id: @rqre_questions.ids, user_id: @user.id)
+
+    puts '-----------------rqre_vote_3'
+  end
+
   def vote
     rqre_question_id = params[:id]
     rqre_vote = RqreVote.where(question_id: rqre_question_id, user_id: @user.id).first

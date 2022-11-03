@@ -1,0 +1,15 @@
+<div class='rqre_question'>
+
+<h2>Vote confirm</h2>
+  <div class="box tabular">
+
+  <% @rqre_questions do |q|%>
+    <% @rqre_votes.each do |v| %>
+        <% if q.id = v.question_id %>
+          <p>question_id <%= q.id %> <%= q.title %> :  <%= v.answer %></p>
+        <% end %>
+    <% end %>
+  <% end %> 
+
+  </div>
+</div>

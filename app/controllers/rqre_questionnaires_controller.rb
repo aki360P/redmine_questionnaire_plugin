@@ -15,9 +15,14 @@ class RqreQuestionnairesController < ApplicationController
   end
   
   def show
-    @rqre_questionnaire = RqreQuestionnaire.find(params[:id])
-    @rqre_questions = RqreQuestion.where("questionnaire_id = ?", params[:id])
-    puts '----rqre2'
+    id = params[:id]
+    @rqre_questionnaire = RqreQuestionnaire.find(id)
+    @rqre_questions = RqreQuestion.where("questionnaire_id = ?", id).order(title: :asc)
+
+    #sort with title (title should begin with sort key)
+    #@rqre_questions = @rqre_questions
+   # @rqre_questions = @rqre_questionnaire.question
+    puts '----rqre2222'
   end
 
   def edit

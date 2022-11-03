@@ -16,6 +16,7 @@ en:
   label_rqre_title: "Title"
   label_rqre_end_datetime: "End Datetime"
   label_rqre_vote: "vote"
+  label_rqre_voting: "Voting"
   label_rqre_note: "note"
   label_rqre_description: "Description"
   label_rqre_revote: "Revote"

@@ -16,6 +16,7 @@ ja:
   label_rqre_title: "タイトル"
   label_rqre_end_datetime: "終了日時"
   label_rqre_vote: "回答"
+  label_rqre_voting: "回答する"
   label_rqre_note: "メモ"
   label_rqre_description: "内容"
   label_rqre_revote: "再回答"
