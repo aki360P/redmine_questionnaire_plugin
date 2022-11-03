@@ -5,4 +5,5 @@ Rails.application.routes.draw do
     end
   end
   resources :rqre_questions, only: [:show, :edit, :update, :destroy]
+  post 'rqre_questions/:id/vote', to: 'rqre_votes#vote'
 end

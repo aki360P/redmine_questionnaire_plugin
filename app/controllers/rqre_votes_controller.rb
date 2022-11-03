@@ -1,0 +1,44 @@
+class RqreVotesController < ApplicationController
+  unloadable
+  before_action :require_login
+  before_action :find_user
+  #before_action :find_project, :except => [:show, :edit, :update, :destroy]
+  #before_action :find_rqre_question
+  #before_action :authorize
+
+  def vote
+    rqre_question_id = params[:id]
+    rqre_vote = RqreVote.where(question_id: rqre_question_id, user_id: @user.id).first
+    
+    if rqre_vote.nil?
+      #new
+      rqre_vote = RqreVote.new
+      rqre_vote['user_id'] = @user.id
+      rqre_vote['question_id'] = rqre_question_id
+      rqre_vote.update(rqre_vote_params)
+      rqre_vote.save!
+      puts '-----------------rqre_vote_1'
+    else
+      #update
+      rqre_vote.update(rqre_vote_params)
+      rqre_vote.save!
+      puts '-----------------rqre_vote_2'
+    end
+  end
+
+  private
+
+  def find_user
+    @user = User.current
+  end
+
+  def find_project
+    @project = Project.find(params[:project_id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def rqre_vote_params
+    params.require(:rqre_vote).permit(:question_id,:user_id,:answer)
+  end
+end
