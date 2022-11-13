@@ -15,7 +15,7 @@ class RqreVotesController < ApplicationController
   end
 
   def vote
-    rqre_question_id = params[:id]
+    rqre_question_id = params[:rqre_vote][:question_id]
     rqre_vote = RqreVote.where(question_id: rqre_question_id, user_id: @user.id).first
     
     if rqre_vote.nil?
@@ -34,6 +34,14 @@ class RqreVotesController < ApplicationController
     end
   end
 
+  def vote_fix
+    rqre_questionnaire_id = params[:id]
+    @rqre_questions = RqreQuestion.where(questionnaire_id: rqre_questionnaire_id)
+    @rqre_votes = RqreVote.where(question_id: @rqre_questions.ids, user_id: @user.id)
+
+    @rqre_votes.update(fixed:'1')
+    #redirect_to project_rqre_questionnaire_path(@project, rqre_questionnaire.id)
+  end
   private
 
   def find_user

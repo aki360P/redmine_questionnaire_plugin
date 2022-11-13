@@ -3,13 +3,20 @@
 <h2>Vote confirm</h2>
   <div class="box tabular">
 
-  <% @rqre_questions do |q|%>
+  <% @rqre_questions.each do |q|%>
     <% @rqre_votes.each do |v| %>
-        <% if q.id = v.question_id %>
+        <% if q.id == v.question_id %>
           <p>question_id <%= q.id %> <%= q.title %> :  <%= v.answer %></p>
         <% end %>
     <% end %>
   <% end %> 
-
   </div>
+
+
+  <%= form_tag(:controller => 'rqre_votes', :action => :vote_fix) do %>
+  <%= submit_tag l(:button_save) %>
+  <% end %> 
+
+  
+
 </div>
