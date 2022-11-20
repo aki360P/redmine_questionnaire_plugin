@@ -15,19 +15,22 @@ class RqreVotesController < ApplicationController
   end
 
   def vote
+    rqre_questionnaire_id = params[:id]
     rqre_question_id = params[:rqre_vote][:question_id]
     rqre_vote = RqreVote.where(question_id: rqre_question_id, user_id: @user.id).first
-    
+
+    #save vote
     if rqre_vote.nil?
       #new
       rqre_vote = RqreVote.new
-      rqre_vote['user_id'] = @user.id
+      rqre_vote['questionnaire_id'] = rqre_questionnaire_id
       rqre_vote['question_id'] = rqre_question_id
+      rqre_vote['user_id'] = @user.id
       rqre_vote.update(rqre_vote_params)
       rqre_vote.save!
       puts '-----------------rqre_vote_1'
     else
-      #update
+      #update 
       rqre_vote.update(rqre_vote_params)
       rqre_vote.save!
       puts '-----------------rqre_vote_2'
@@ -35,12 +38,35 @@ class RqreVotesController < ApplicationController
   end
 
   def vote_fix
-    rqre_questionnaire_id = params[:id]
-    @rqre_questions = RqreQuestion.where(questionnaire_id: rqre_questionnaire_id)
-    @rqre_votes = RqreVote.where(question_id: @rqre_questions.ids, user_id: @user.id)
 
-    @rqre_votes.update(fixed:'1')
-    #redirect_to project_rqre_questionnaire_path(@project, rqre_questionnaire.id)
+    rqre_questionnaire_id = params[:id]
+  
+    #fix each votes of a user
+    rqre_questions = RqreQuestion.where(questionnaire_id: rqre_questionnaire_id)
+    rqre_votes = RqreVote.where(question_id: rqre_questions.ids, user_id: @user.id)
+
+    rqre_votes.update(fixed:'1')
+
+    
+    #fix questionnaire of a user
+    rqre_vote = RqreVote.where(questionnaire_id: rqre_questionnaire_id, question_id: '0', user_id: @user.id).first
+    #save
+    if rqre_vote.nil?
+      #new
+      rqre_vote = RqreVote.new
+      rqre_vote['questionnaire_id'] = rqre_questionnaire_id
+      rqre_vote['question_id'] = '0'   # 0 represents that it is a qustionnaire summary record of a user
+      rqre_vote['user_id'] = @user.id
+      rqre_vote['fixed'] = '1'
+      rqre_vote.save!
+      puts '-----------------rqre_vote_1'
+    else
+      #update 
+      rqre_vote.update(fixed:'1')
+      puts '-----------------rqre_vote_2'
+    end
+
+    redirect_to project_rqre_questionnaires_path('1')
   end
   private
 

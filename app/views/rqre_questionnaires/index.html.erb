@@ -27,12 +27,18 @@ index:<br>
   </tr></thead>
   <tbody>
 <% @rqre_questionnaires.each do |r| %>
+  <% count = 0 %>
+  <% @rqre_votes.each do |v| %>
+    <% if r.id == v.questionnaire_id %><% count = count + 1 %><% end %>
+  <% end %>
+
   <tr class="board">
     <td class="name"><%= link_to r.title, project_rqre_questionnaire_path(r.project, r), :class => "board" %>
       <p class="description"><%= r.note %></p></td>
     <td class="end"><%= r.end %></td>
-    <td></td>
+    <td><%= count %></td>
   </tr>
+  
 <% end %>
   </tbody>
 </table>

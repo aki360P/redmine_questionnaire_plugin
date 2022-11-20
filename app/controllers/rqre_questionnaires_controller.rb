@@ -11,6 +11,7 @@ class RqreQuestionnairesController < ApplicationController
   def index
     # find questionnaires
     @rqre_questionnaires = RqreQuestionnaire.where("project_id = ?", @project.id)
+    @rqre_votes = RqreVote.where(questionnaire_id: @rqre_questionnaires.ids, question_id: '0', fixed: '1')
     puts '----rqre1'
   end
   
@@ -18,6 +19,8 @@ class RqreQuestionnairesController < ApplicationController
     id = params[:id]
     @rqre_questionnaire = RqreQuestionnaire.find(id)
     @rqre_questions = RqreQuestion.where("questionnaire_id = ?", id).order(title: :asc)
+
+    @rqre_votes = RqreVote.where(questionnaire_id: @rqre_questionnaires.ids, fixed: '1')
 
     #sort with title (title should begin with sort key)
     #@rqre_questions = @rqre_questions
