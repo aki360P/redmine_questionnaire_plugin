@@ -20,12 +20,26 @@ class RqreQuestionnairesController < ApplicationController
     @rqre_questionnaire = RqreQuestionnaire.find(id)
     @rqre_questions = RqreQuestion.where("questionnaire_id = ?", id).order(title: :asc)
 
-    @rqre_votes = RqreVote.where(questionnaire_id: @rqre_questionnaires.ids, fixed: '1')
-
     #sort with title (title should begin with sort key)
     #@rqre_questions = @rqre_questions
    # @rqre_questions = @rqre_questionnaire.question
     puts '----rqre2222'
+  end
+
+  def result
+    id = params[:id]
+    @rqre_questionnaire = RqreQuestionnaire.find(id)
+    @rqre_questions = RqreQuestion.where("questionnaire_id = ?", id).order(title: :asc)
+    @rqre_votes = RqreVote.where(questionnaire_id: id, fixed: '1')
+
+    @rqre_data = {}
+    @rqre_votes.each do |v|
+      if @rqre_data[v.question_id].nil?
+        @rqre_data[v.question_id] =[]
+      end 
+      @rqre_data[v.question_id] = @rqre_data[v.question_id].push(v.answer)
+    end
+    puts '----rqre2'
   end
 
   def edit

@@ -1,10 +1,10 @@
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "Chart.min.js", plugin: "redmine_questionnaire_plugin" %>
+<% end %>
+
 <div class='rqre_questionnarie'>
 
 <h2>Questionnarie Form</h2>
-<% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
-  <%= link_to l(:label_rqre_edit), edit_project_rqre_questionnaire_path(@project, @rqre_questionnaire), :class => 'icon icon-edit' %>
-<% end %>
-
 
   <div class="box tabular">
     <%= hidden_field_tag('rqre_questionnaires[project_id]', @rqre_questionnaire['project_id']) %>
@@ -14,35 +14,20 @@
     <p><%= label_tag('rqre_questionnaires[revote]', l(:label_rqre_revote)) %><%= @rqre_questionnaire['revote'] %></p>
     <p><%= label_tag('rqre_questionnaires[end]', l(:label_rqre_end)) %><%= @rqre_questionnaire['end'].to_date %></p>
   </div>
-
-  <% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
-    <%= link_to l(:label_rqre_edit), new_project_rqre_questionnaire_rqre_question_path(@project, @rqre_questionnaire), :class => 'icon icon-add' %> aaa
-  <% end %>
-
+  <% %>
   <% @rqre_questions.each do |q| %>
     <div class="box tabular">
-      <%= q.title %>     
-        <% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
-          <%= link_to l(:label_rqre_edit), rqre_question_path(q), :class => 'icon icon-edit' %>  <%= link_to l(:label_rqre_delete), rqre_question_path(q), :method => :delete, data: {confirm: l(:label_rqre_delete_message)},  :class => 'icon icon-delete' %>
-        <% end %>
-        <br>
-
-      <%= form_tag(:controller => 'rqre_votes', :action => :vote, :remote => true) do %>
-        <%= hidden_field_tag('rqre_vote[question_id]', q['id']) %>id=<%= q.id %>  dtype=<%= q.dtype %><br>
-        <% case q.dtype when 1 %> out1<br>
-        <% when 10 %>out10<br>
-          <%= radio_button_tag('rqre_vote[answer]', "null") %>null 
-          <% for i in 1..10 do %><%= radio_button_tag('rqre_vote[answer]', i) %><%= i %> <% end %>
-        <% else %> "out_else"<br>
-        <% end %>
-      <%= submit_tag l(:button_save) %>
-      <% end %>
+      q_id=<%= q.id %> <%= q.title %>
+      <%= @rqre_data[q.id] %>
+      <%= render partial: "/rqre_questionnaires/chart_js",
+          locals: { q: q,
+                    dtype: q.dtype,
+                    vote_data: @rqre_data[q.id] } %>
       <br>
-
-      
     </div>
   <% end %>
 
 
   <%= link_to l(:label_rqre_voting),  controller: "rqre_votes", action: "index", id:  @rqre_questionnaire, :method => :get %>
 </div>
+

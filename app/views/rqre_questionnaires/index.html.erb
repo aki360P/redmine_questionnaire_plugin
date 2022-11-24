@@ -36,7 +36,7 @@ index:<br>
     <td class="name"><%= link_to r.title, project_rqre_questionnaire_path(r.project, r), :class => "board" %>
       <p class="description"><%= r.note %></p></td>
     <td class="end"><%= r.end %></td>
-    <td><%= count %></td>
+    <td><%= count %><%= link_to '回答を見る', controller: "rqre_questionnaires", action: "result", project_id: r.project, id: r %></td>
   </tr>
   
 <% end %>
