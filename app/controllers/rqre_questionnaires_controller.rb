@@ -11,14 +11,14 @@ class RqreQuestionnairesController < ApplicationController
   def index
     # find questionnaires
     @rqre_questionnaires = RqreQuestionnaire.where("project_id = ?", @project.id)
-    @rqre_votes = RqreVote.where(questionnaire_id: @rqre_questionnaires.ids, question_id: '0', fixed: '1')
+    @rqre_votes = RqreVote.where(rqre_questionnaire_id: @rqre_questionnaires.ids, rqre_question_id: '0', freezed: '1')
     puts '----rqre1'
   end
   
   def show
     id = params[:id]
     @rqre_questionnaire = RqreQuestionnaire.find(id)
-    @rqre_questions = RqreQuestion.where("questionnaire_id = ?", id).order(title: :asc)
+    @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
 
     #sort with title (title should begin with sort key)
     #@rqre_questions = @rqre_questions
@@ -29,18 +29,30 @@ class RqreQuestionnairesController < ApplicationController
   def result
     id = params[:id]
     @rqre_questionnaire = RqreQuestionnaire.find(id)
-    @rqre_questions = RqreQuestion.where("questionnaire_id = ?", id).order(title: :asc)
-    @rqre_votes = RqreVote.where(questionnaire_id: id, fixed: '1')
+    @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
+    @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, freezed: '1')
 
     @rqre_data = {}
     @rqre_votes.each do |v|
-      if @rqre_data[v.question_id].nil?
-        @rqre_data[v.question_id] =[]
+      if @rqre_data[v.rqre_question_id].nil?
+        @rqre_data[v.rqre_question_id] =[]
       end 
-      @rqre_data[v.question_id] = @rqre_data[v.question_id].push(v.answer)
+      @rqre_data[v.rqre_question_id] = @rqre_data[v.rqre_question_id].push(v.answer)
     end
+
+    #gon.rqre_votes = @rqre_votes
+
+    #gon.rqre_votes = {}
+    #@rqre_votes.each do |v|
+    #  if gon.rqre_votes[v.question_id].nil?
+    #    gon.rqre_votes[v.question_id] =[]
+    #  end 
+    #  gon.rqre_votes[v.question_id] = gon.rqre_votes[v.question_id].push(v.answer)
+    #end
+
     puts '----rqre2'
   end
+
 
   def edit
     @rqre_questionnaire = RqreQuestionnaire.find(params[:id])
@@ -74,6 +86,9 @@ class RqreQuestionnairesController < ApplicationController
     end
   end
   
+  def vote
+    puts '-----------------rqre_vote_1'
+  end
 
 
   def delete

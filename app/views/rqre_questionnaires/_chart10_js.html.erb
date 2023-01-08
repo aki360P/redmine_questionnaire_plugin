@@ -1,0 +1,75 @@
+<canvas id="ChartProject_<%= q.id %>"></canvas>
+vote_data <%= vote_data %>
+
+
+
+<script type="text/javascript">
+//jQuery(document).ready(function($) {
+
+	var getResultsJSON = function(id) {
+			var url = 'http://localhost:3000/rqre_question/' + id + '/result.json';
+			
+			$.ajax({
+				url : url,
+				dataType : 'json',
+				
+				success: function(res){ 
+					console.log("ajax読み込み成功 %s", url);
+					console.dir(res);
+
+                    //initialize 0..10 legend bar chart
+                    var chart_data = [];
+                    for (let i = 0; i <= 10; i++){
+                        chart_data[i] = 0;
+                    }
+
+                    //count each legend
+                    for (let i = 0; i < res.length; i++){
+                            console.log(res[i].answer);
+                            chart_data[res[i].answer] = chart_data[res[i].answer] + 1;
+                        }
+
+                    var ctx = document.getElementById("ChartProject_" + id).getContext("2d");
+                    var myChart = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: [0,1,2,3,4,5,6,7,8,9,10],
+                            datasets: [{
+                                label: "10分類",
+                                spanGaps: true,
+                                data: chart_data,
+                                borderWidth: 2,
+                                lineTension: 0,
+                                borderColor: "royalblue",
+                                pointRadius: 1,
+                                backgroundColor: "royalblue",
+                                fill: false
+                            }]
+                        }
+                    });
+
+                    myChart.canvas.parentNode.style.height = '220px';
+                    myChart.canvas.parentNode.style.width = '400px';
+
+				},
+
+				error: function(){ console.log("ajax失敗 %s", url);  }
+				
+			    
+            });
+	};
+
+    var qid = "<%= q.id %>";
+
+
+
+    //var vote_data = "<%= vote_data[1] %>";
+    //for (let v = 0; v < vote_data.length; v++){
+    //    chart_data[vote_data[v]] = chart_data[vote_data[v]] + 1;
+    //}
+    getResultsJSON(qid);
+//});
+
+
+
+</script>

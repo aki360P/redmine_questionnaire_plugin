@@ -29,7 +29,7 @@ index:<br>
 <% @rqre_questionnaires.each do |r| %>
   <% count = 0 %>
   <% @rqre_votes.each do |v| %>
-    <% if r.id == v.questionnaire_id %><% count = count + 1 %><% end %>
+    <% if r.id == v.rqre_questionnaire_id %><% count = count + 1 %><% end %>
   <% end %>
 
   <tr class="board">

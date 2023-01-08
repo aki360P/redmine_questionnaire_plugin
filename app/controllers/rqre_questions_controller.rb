@@ -1,9 +1,9 @@
 class RqreQuestionsController < ApplicationController
   unloadable
-  before_action :require_login
+  #before_action :require_login
   before_action :find_user
-  before_action :find_project, :except => [:show, :edit, :update, :destroy]
-  before_action :find_rqre_questionnaire, :except => [:show, :edit, :update, :destroy]
+  before_action :find_project, :except => [:show, :edit, :update, :destroy, :result_question]
+  before_action :find_rqre_questionnaire, :except => [:show, :edit, :update, :destroy, :result_question]
   #before_action :authorize
 
 
@@ -27,7 +27,7 @@ class RqreQuestionsController < ApplicationController
   def create
     unless params[:rqre_question].nil?
       rqre_question = RqreQuestion.create(rqre_question_params)
-      rqre_question['questionnaire_id'] = @rqre_questionnaire.id
+      rqre_question['rqre_questionnaire_id'] = @rqre_questionnaire.id
       rqre_question.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_rqre_questionnaire_path(@project, @rqre_questionnaire.id)
@@ -42,14 +42,14 @@ class RqreQuestionsController < ApplicationController
       rqre_question.save
       flash[:notice] = l(:notice_successful_update)
 
-      rqre_questionnaire = RqreQuestionnaire.find(rqre_question.questionnaire_id)
+      rqre_questionnaire = RqreQuestionnaire.find(rqre_question.rqre_questionnaire_id)
       redirect_to project_rqre_questionnaire_path(rqre_questionnaire.project_id, rqre_questionnaire)
     end
   end
 
   def destroy
     rqre_question = RqreQuestion.find(params[:id])
-    rqre_questionnaire = RqreQuestionnaire.find(rqre_question.questionnaire_id)
+    rqre_questionnaire = RqreQuestionnaire.find(rqre_question.rqre_questionnaire_id)
     project = Project.find(rqre_questionnaire.project_id)
     
     (render_403; return false) unless User.current.allowed_to?(:rqre_questionnaires_edit, project)
@@ -58,7 +58,19 @@ class RqreQuestionsController < ApplicationController
     rqre_question.destroy
     flash[:notice] = l(:notice_successful_delete)
     redirect_to project_rqre_questionnaire_path(rqre_questionnaire.project_id, rqre_questionnaire)
-  end 
+  end
+
+  def result_question
+    @rqre_question = RqreQuestion.find(params[:id])
+    result_question = @rqre_question.rqre_votes.select(:answer).to_a
+    #aaa = result_question.to_a
+
+    respond_to do |format|
+      format.xml  { render :xml => result_question }
+      format.json { render :json => result_question }
+    end
+  end
+
 
   private
 
@@ -79,6 +91,6 @@ class RqreQuestionsController < ApplicationController
   end
   
   def rqre_question_params
-    params.require(:rqre_question).permit(:questionnaire_id,:title,:dtype)
+    params.require(:rqre_question).permit(:title,:dtype)
   end
 end

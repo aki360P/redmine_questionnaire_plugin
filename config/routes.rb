@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   end
   resources :rqre_questions, only: [:show, :edit, :update, :destroy]
   post 'rqre_questions/:id/vote', to: 'rqre_votes#vote'
-  get 'rqre_questionnaire/:id/vote', to: 'rqre_votes#index'
-  post 'rqre_questionnaire/:id/vote_fix', to: 'rqre_votes#vote_fix'
+
+  get 'rqre_questionnaire/:id/vote', to: 'rqre_questionnaires#vote'
+  patch 'rqre_questionnaire/:id/vote', to: 'rqre_questionnaires#vote'
+  #post 'rqre_questionnaire/:id/vote', to: 'rqre_questionnaires#vote'
+  post 'rqre_questionnaire/:id/vote_freeze', to: 'rqre_votes#vote_freeze'
+  get 'rqre_question/:id/result', to: 'rqre_questions#result_question'
 end
