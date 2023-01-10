@@ -88,6 +88,29 @@ class RqreQuestionnairesController < ApplicationController
   
   def vote
     puts '-----------------rqre_vote_1'
+
+    rqre_questionnaire_id = params[:id]
+
+    aaa = params["rqre_question1"]
+
+
+    #save vote
+    if rqre_vote.nil?
+      #new
+      rqre_vote = RqreVote.new
+      rqre_vote['rqre_questionnaire_id'] = rqre_question[:rqre_questionnaire_id]
+      rqre_vote['rqre_question_id'] = rqre_question_id
+      rqre_vote['user_id'] = @user.id
+      rqre_vote['answer'] = params[:answer]
+      rqre_vote.save!
+      puts '-----------------rqre_vote_1'
+    else
+      #update 
+      rqre_vote['answer'] = params[:answer]
+      rqre_vote['freezed'] = '0'
+      rqre_vote.save!
+      puts '-----------------rqre_vote_2'
+    end
   end
 
 
