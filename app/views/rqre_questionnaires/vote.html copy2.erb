@@ -1,0 +1,26 @@
+<div class='rqre_questionnarie'>
+
+<h2>Questionnarie Form</h2>
+
+
+
+  <div class="box tabular">
+    <%= hidden_field_tag('rqre_questionnaires[project_id]', @rqre_questionnaire['project_id']) %>
+    <p><%= label_tag('rqre_questionnaires[title]', l(:label_rqre_title)) %><%= @rqre_questionnaire['title'] %></p>
+    <p><%= label_tag('rqre_questionnaires[note]', l(:label_rqre_note)) %><%= @rqre_questionnaire['note'] %></p>
+    <p><%= label_tag('rqre_questionnaires[description]', l(:label_rqre_description)) %><%= @rqre_questionnaire['description'] %></p>
+    <p><%= label_tag('rqre_questionnaires[revote]', l(:label_rqre_revote)) %><%= @rqre_questionnaire['revote'] %></p>
+    <p><%= label_tag('rqre_questionnaires[end]', l(:label_rqre_end)) %><%= @rqre_questionnaire['end'].to_date %></p>
+  </div>
+
+    <%= form_with url: vote_project_rqre_questionnaire_path(@rqre_questionnaire['project_id'], @rqre_questionnaire['id'])  do |f| %>
+        <div class="box tabular">
+        <%= hidden_field_tag(:rqre_index, @rqre_index + 1) %>
+        <%= @rqre_question.title %>
+        <%= radio_button_tag('answer', "null", false) %>null 
+        <% for i in 1..10 do %><%= radio_button_tag('answer', i, false) %><%= i %> <% end %>
+        </div>
+        <%= f.submit('next') %>
+    <% end %>
+
+</div>

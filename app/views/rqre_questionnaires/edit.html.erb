@@ -29,8 +29,6 @@
       
     <% end %>
   
-  <% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
-    <%= link_to l(:label_rqre_edit), new_project_rqre_questionnaire_rqre_question_path(@project, @rqre_questionnaire), :class => 'icon icon-add' %> aaa
-  <% end %>
+
 
 </div>

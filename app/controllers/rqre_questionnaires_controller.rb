@@ -11,19 +11,28 @@ class RqreQuestionnairesController < ApplicationController
   def index
     # find questionnaires
     @rqre_questionnaires = RqreQuestionnaire.where("project_id = ?", @project.id)
+
+    # find number of votes
     @rqre_votes = RqreVote.where(rqre_questionnaire_id: @rqre_questionnaires.ids, rqre_question_id: '0', freezed: '1')
-    puts '----rqre1'
+
+    puts @rqre_questionnaires.length
+    puts '--------'
+
   end
   
   def show
+    #show a questionnaire
     id = params[:id]
     @rqre_questionnaire = RqreQuestionnaire.find(id)
+
+    #show questions
+    #sort with question title (title may begin with sort key)
     @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
 
-    #sort with title (title should begin with sort key)
-    #@rqre_questions = @rqre_questions
-   # @rqre_questions = @rqre_questionnaire.question
-    puts '----rqre2222'
+    #find existing answer
+    @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, user_id: @user.id).pluck(:rqre_question_id, :answer)
+    #@rqre_votes_q = @rqre_votes["rqre_question_id"]
+    #@rqre_votes_a = @rqre_votes["answer"]
   end
 
   def result
@@ -87,31 +96,89 @@ class RqreQuestionnairesController < ApplicationController
   end
   
   def vote
-    puts '-----------------rqre_vote_1'
+    id = params[:id]
+    #@rqre_questionnaire = RqreQuestionnaire.find(id)
+    #@rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
 
-    rqre_questionnaire_id = params[:id]
+    rqre_vote = RqreVote.where(rqre_question_id: params[:rqre_question_id], user_id: @user.id).first
+    
 
-    aaa = params["rqre_question1"]
-
+    #rqre_vote = RqreVote.new(rqre_vote_params)
+    #rqre_vote['user_id'] = @user.id
+    #rqre_vote['freezed'] = '0'
+    #rqre_vote.save!
 
     #save vote
     if rqre_vote.nil?
       #new
       rqre_vote = RqreVote.new
-      rqre_vote['rqre_questionnaire_id'] = rqre_question[:rqre_questionnaire_id]
-      rqre_vote['rqre_question_id'] = rqre_question_id
+      rqre_vote = RqreVote.new(rqre_vote_params)
       rqre_vote['user_id'] = @user.id
-      rqre_vote['answer'] = params[:answer]
+      rqre_vote['freezed'] = '0'
       rqre_vote.save!
-      puts '-----------------rqre_vote_1'
     else
       #update 
       rqre_vote['answer'] = params[:answer]
       rqre_vote['freezed'] = '0'
       rqre_vote.save!
-      puts '-----------------rqre_vote_2'
     end
   end
+  
+  
+  #def vote
+  #  @rqre_index = params[:rqre_index].to_i
+  #  
+  #  puts '======'
+
+  #  id = params[:id]
+  #  @rqre_questionnaire = RqreQuestionnaire.find(id)
+  #  @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
+
+    
+    #render confirm page
+  #  if  @rqre_index >= @rqre_questions.length
+  #    puts '======@rqre_index > @rqre_questions.length'
+  #    flash[:notice] = l(:notice_successful_update)
+  #    redirect_to project_rqre_questionnaire_path(@project, id)
+    
+    #render initial question
+  #  else
+
+  #    @rqre_question = @rqre_questions[@rqre_index]
+  #    @rqre_vote = RqreVote.where(rqre_questionnaire_id: id, rqre_question_id: @rqre_question.id, user_id: @user.id).first
+
+        #create vote record or update
+  #      if @rqre_vote.nil?
+  #        @rqre_vote = RqreVote.new
+  #      end
+
+  #      unless params[:answer].nil?
+  #        @rqre_vote.update(rqre_vote_params)
+  #        @rqre_vote.save!
+  #      end
+  #  end
+
+    
+    
+    #unless params[:answer].nil?
+    #  rqre_vote = RqreVote.update(rqre_questionnaire_params)
+    #  rqre_vote.save!
+    #end
+
+
+    
+      #new
+      
+      #render partial: 'vote'
+
+    #else
+    #  #update 
+    #  rqre_vote['answer'] = params[:answer]
+    #  rqre_vote['freezed'] = '0'
+    #  rqre_vote.save!
+    #end
+
+  #end
 
 
   def delete
@@ -133,4 +200,10 @@ class RqreQuestionnairesController < ApplicationController
   def rqre_questionnaire_params
     params.require(:rqre_questionnaires).permit(:project_id,:title,:note,:description,:revote,:end)
   end
+
+  def rqre_vote_params
+    params.permit(:rqre_questionnaire_id, :rqre_question_id, :answer)
+    #params.require(:rqre_vote).permit(:rqre_question_id,:user_id,:answer)
+  end
+
 end

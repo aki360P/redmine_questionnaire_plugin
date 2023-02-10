@@ -1,13 +1,14 @@
 <div class='rqre_questionnarie'>
 
 <h2>Questionnarie Form</h2>
-<% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
-  <%= link_to l(:label_rqre_edit), edit_project_rqre_questionnaire_path(@project, @rqre_questionnaire), :class => 'icon icon-edit' %>
-<% end %>
+
 
 
   <div class="box tabular">
     <%= hidden_field_tag('rqre_questionnaires[project_id]', @rqre_questionnaire['project_id']) %>
+    <% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
+      <%= link_to l(:label_rqre_edit), edit_project_rqre_questionnaire_path(@project, @rqre_questionnaire), :class => 'icon icon-edit' %>  <%= link_to l(:label_rqre_delete), project_rqre_questionnaire_path(@project, @rqre_questionnaire), :method => :delete, data: {confirm: l(:label_rqre_delete_message)},  :class => 'icon icon-delete' %>
+    <% end %>
     <p><%= label_tag('rqre_questionnaires[title]', l(:label_rqre_title)) %><%= @rqre_questionnaire['title'] %></p>
     <p><%= label_tag('rqre_questionnaires[note]', l(:label_rqre_note)) %><%= @rqre_questionnaire['note'] %></p>
     <p><%= label_tag('rqre_questionnaires[description]', l(:label_rqre_description)) %><%= @rqre_questionnaire['description'] %></p>
@@ -15,18 +16,43 @@
     <p><%= label_tag('rqre_questionnaires[end]', l(:label_rqre_end)) %><%= @rqre_questionnaire['end'].to_date %></p>
   </div>
 
-  <%= form_for @rqre_questionnaire, url: url_for(action: :vote) do |f| %>
-    <%= hidden_field_tag('project_id', @rqre_questionnaire['project_id']) %>
-    <% @rqre_questionnaire.rqre_questions.sort_by{|q| q.title}.each do |q| %>
-      <%= f.fields_for q do |f| %>
-        <div class="box tabular">
-        <%= q.title %><br>
-        <%= radio_button_tag('rqre_question' + q.id.to_s, "null") %>null 
-        <% for i in 1..10 do %><%= radio_button_tag('rqre_question' + q.id.to_s, i) %><%= i %> <% end %>
-        </div>
-      <% end %>
-    <% end %>
-    <%= f.submit %>
+  <%= form_with url: vote_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id) do |f| %>
+    <%= hidden_field_tag(:rqre_index, '0') %>
+    <%= f.submit l(:label_rqre_vote) %>
   <% end %>
+  <br>
+  <%= @rqre_votes.to_a %>
+  <br>
+  
 
+    <% @rqre_questions.each do |q| %>
+      <% vote = 0 %>
+      <% @rqre_votes.each do |v| %><% vote = v[1] if v[0] == q.id %><% end %>
+      
+
+      <%= form_with url: vote_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id) do |f| %>
+        <div class="box tabular">
+        <%= hidden_field_tag(:rqre_questionnaire_id, @rqre_questionnaire.id) %>
+        <%= hidden_field_tag(:rqre_question_id, q.id) %>
+        <%= q.title %>
+        <% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
+          <%= link_to l(:label_rqre_edit), rqre_question_path(q), :class => 'icon icon-edit' %>  <%= link_to l(:label_rqre_delete), rqre_question_path(q), :method => :delete, data: {confirm: l(:label_rqre_delete_message)},  :class => 'icon icon-delete' %>
+          <br>
+        <% end %>
+        <%= radio_button_tag('answer', "null", false) %>null 　 
+        <% for i in 1..10 do %>
+          <% if i == vote.to_i %><%= radio_button_tag('answer', i, true) %><%= i %> 　 
+          <% else %><%= radio_button_tag('answer', i, false) %><%= i %> 　 
+          <% end %>
+        <% end %>
+        <%= submit_tag l(:label_rqre_vote) %>
+      <% end %>       
+      </div>
+    <% end %>
+
+  <% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
+    <%= link_to l(:label_rqre_edit), new_project_rqre_questionnaire_rqre_question_path(@project, @rqre_questionnaire), :class => 'icon icon-add' %> add
+  <% end %>
+  
+  
 </div>
