@@ -1,3 +1,11 @@
+<script>
+  jQuery(document).ready(function() {
+    $('input[name="answer"]').change(function() {
+      $(this).parent().submit();
+    });
+  });
+</script>
+
 <div class='rqre_questionnarie'>
 
 <h2>Questionnarie Form</h2>
@@ -29,9 +37,9 @@
       <% vote = 0 %>
       <% @rqre_votes.each do |v| %><% vote = v[1] if v[0] == q.id %><% end %>
       
-
-      <%= form_with url: vote_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id) do |f| %>
-        <div class="box tabular">
+      <div class="box tabular">
+      <%= form_with url: vote_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id), local: false do |f| %>
+        
         <%= hidden_field_tag(:rqre_questionnaire_id, @rqre_questionnaire.id) %>
         <%= hidden_field_tag(:rqre_question_id, q.id) %>
         <%= q.title %>
@@ -45,14 +53,15 @@
           <% else %><%= radio_button_tag('answer', i, false) %><%= i %> 　 
           <% end %>
         <% end %>
-        <%= submit_tag l(:label_rqre_vote) %>
       <% end %>       
       </div>
     <% end %>
 
   <% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
     <%= link_to l(:label_rqre_edit), new_project_rqre_questionnaire_rqre_question_path(@project, @rqre_questionnaire), :class => 'icon icon-add' %> add
+    <br>
   <% end %>
   
+  <%= link_to l(:label_rqre_vote), confirm_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id) %>
   
 </div>

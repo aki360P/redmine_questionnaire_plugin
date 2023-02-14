@@ -11,6 +11,6 @@
   </div>
 
 
-  <%= form_tag(:controller => 'rqre_votes', :action => :vote_freeze) do %>
-  <%= submit_tag l(:button_save) %>
-  <% end %> 
+  <%= form_with url: vote_freeze_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id) do |f| %>
+    <%= f.submit l(:label_rqre_vote) %>
+  <% end %>

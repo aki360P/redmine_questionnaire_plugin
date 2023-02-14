@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         get :result
         post :vote
         patch :vote
+        get :confirm
         post :vote_freeze
       end
     end

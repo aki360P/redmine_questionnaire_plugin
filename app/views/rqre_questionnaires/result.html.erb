@@ -21,7 +21,7 @@
       q_id=<%= q.id %> <%= q.title %>
       <%= @rqre_data[q.id] %>
       <% if q.dtype == 10 %>
-        <%= render partial: "/rqre_questionnaires/chart10_js", locals: { q: q, vote_data: @rqre_data[q.id] } %>
+        <%= render partial: "/rqre_questionnaires/chart_js", locals: { q: q, vote_data: @rqre_data[q.id] } %>
       <% end%>
       <br>
     </div>

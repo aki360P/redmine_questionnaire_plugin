@@ -124,7 +124,50 @@ class RqreQuestionnairesController < ApplicationController
     end
   end
   
-  
+  def confirm
+    #show a questionnaire
+    id = params[:id]
+    @rqre_questionnaire = RqreQuestionnaire.find(id)
+
+    #show questions
+    #sort with question title (title may begin with sort key)
+    @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
+
+    #find existing answer
+    @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, user_id: @user.id)
+  end
+
+  def vote_freeze
+    #show a questionnaire
+    id = params[:id]
+    @rqre_questionnaire = RqreQuestionnaire.find(id)
+
+    #show questions
+    #sort with question title (title may begin with sort key)
+    @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
+
+    #find existing answer
+    @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, user_id: @user.id)
+    @rqre_votes.update(freezed: '1')
+
+    vote0 = RqreVote.where(rqre_questionnaire_id: id, user_id: @user.id, rqre_question_id: '0').first
+    if vote0.nil?
+      #new
+      vote0 = RqreVote.new
+      vote0['rqre_questionnaire_id'] = id
+      vote0['rqre_question_id'] = '0'
+      vote0['user_id'] = @user.id
+      vote0['freezed'] = '1'
+      vote0.save!
+    else
+      #update 
+      vote0['freezed'] = '1'
+      vote0.save!
+    end
+
+    redirect_to project_rqre_questionnaires_path(@project)
+  end
+
   #def vote
   #  @rqre_index = params[:rqre_index].to_i
   #  
