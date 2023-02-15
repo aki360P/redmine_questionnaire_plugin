@@ -2,12 +2,13 @@
 <script>
 var qid = "<%= q.id %>";
 var chart_data = [];
-var vote_data = "<%= vote_data %>";
+var vote_data = gon.rqre_votes;
     for (let i = 0; i <= 10; i++){
-        chart_data[i] = 0;
+        chart_data[i] = 0; //initialize
     }
-    for (let v = 0; v < vote_data.length; v++){
-        chart_data[vote_data[v]] = chart_data[vote_data[v]] + 1;
+    for (let v = 0; v < vote_data[qid].length; v++){
+        console.log (vote_data[qid][v]);
+        chart_data[vote_data[qid][v]] = chart_data[vote_data[qid][v]] + 1;
     }
 
 var ctx = document.getElementById("ChartProject_" + qid).getContext("2d");

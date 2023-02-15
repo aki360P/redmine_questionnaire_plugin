@@ -41,23 +41,25 @@ class RqreQuestionnairesController < ApplicationController
     @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
     @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, freezed: '1')
 
-    @rqre_data = {}
-    @rqre_votes.each do |v|
-      if @rqre_data[v.rqre_question_id].nil?
-        @rqre_data[v.rqre_question_id] =[]
-      end 
-      @rqre_data[v.rqre_question_id] = @rqre_data[v.rqre_question_id].push(v.answer)
-    end
-
-    #gon.rqre_votes = @rqre_votes
-
-    #gon.rqre_votes = {}
+    #@rqre_data = {}
     #@rqre_votes.each do |v|
-    #  if gon.rqre_votes[v.question_id].nil?
-    #    gon.rqre_votes[v.question_id] =[]
+    #  if @rqre_data[v.rqre_question_id].nil?
+    #    @rqre_data[v.rqre_question_id] =[]
     #  end 
-    #  gon.rqre_votes[v.question_id] = gon.rqre_votes[v.question_id].push(v.answer)
+    #  @rqre_data[v.rqre_question_id] = @rqre_data[v.rqre_question_id].push(v.answer)
     #end
+
+    #@rqre_data = RqreVote.where(rqre_questionnaire_id: id, freezed: '1').pluck(:rqre_question_id, :answer)
+
+    gon.rqre_votes = @rqre_votes
+
+    gon.rqre_votes = {}
+    @rqre_votes.each do |v|
+      if gon.rqre_votes[v.rqre_question_id].nil?
+        gon.rqre_votes[v.rqre_question_id] =[]
+      end 
+      gon.rqre_votes[v.rqre_question_id] = gon.rqre_votes[v.rqre_question_id].push(v.answer)
+    end
 
     puts '----rqre2'
   end

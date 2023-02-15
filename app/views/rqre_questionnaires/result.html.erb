@@ -1,4 +1,5 @@
 <% content_for :header_tags do %>
+  <%= include_gon %>
   <%= javascript_include_tag "Chart.min.js", plugin: "redmine_questionnaire_plugin" %>
 <% end %>
 
@@ -18,9 +19,8 @@
   <% @rqre_questions.each do |q| %>
     <div class="box tabular">
       q_id=<%= q.id %> <%= q.title %>
-      <%= @rqre_data[q.id] %>
       <% if q.dtype == 10 %>
-        <%= render partial: "/rqre_questionnaires/chart_js", locals: { q: q, vote_data: @rqre_data[q.id] } %>
+        <%= render partial: "/rqre_questionnaires/chart_js", locals: { q: q } %>
       <% end%>
       <br>
     </div>
