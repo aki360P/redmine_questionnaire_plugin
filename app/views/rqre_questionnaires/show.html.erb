@@ -1,7 +1,15 @@
 <script>
   jQuery(document).ready(function() {
     $('input[name="answer"]').change(function() {
-      $(this).parent().submit();
+      var formData = $(this).parent().serialize(); // get form data
+      event.preventDefault(); // cancellation form POST
+
+            $.ajax({
+                type : "POST",
+                url  : location.href + "/vote",
+                data : formData,
+                dataType : "text"
+            })
     });
   });
 </script>
