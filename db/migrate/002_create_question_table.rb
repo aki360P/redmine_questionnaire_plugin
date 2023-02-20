@@ -8,7 +8,7 @@ class CreateQuestionTable < ActiveRecord::Migration[4.2]
       t.column :updated_on, :datetime
     end
   end
-
+  
   def self.down
     drop_table :rqre_questions
   end

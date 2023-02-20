@@ -1,6 +1,8 @@
 <% content_for :header_tags do %>
+  <%= stylesheet_link_tag "mermaid.min.css", plugin: "redmine_questionnaire_plugin" %>
   <%= include_gon %>
   <%= javascript_include_tag "Chart.min.js", plugin: "redmine_questionnaire_plugin" %>
+  <%= javascript_include_tag "gridjs.umd.js", plugin: "redmine_questionnaire_plugin" %>
 <% end %>
 
 <div class='rqre_questionnarie'>
@@ -19,9 +21,13 @@
   <% @rqre_questions.each do |q| %>
     <div class="box tabular">
       q_id=<%= q.id %> <%= q.title %>
-      <% if q.dtype == 10 %>
-        <%= render partial: "/rqre_questionnaires/chart_js", locals: { q: q } %>
-      <% end%>
+      <% if q.dtype == "10" %>
+        <%= render partial: "/rqre_questionnaires/result_chart10", locals: { q: q } %>
+      <% elsif q.dtype == "text" %>
+        <%= render partial: "/rqre_questionnaires/result_text", locals: { q: q } %>
+      <% elsif %>
+        error
+      <% end %>
       <br>
     </div>
   <% end %>
