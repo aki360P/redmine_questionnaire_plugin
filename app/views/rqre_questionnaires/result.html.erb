@@ -25,6 +25,8 @@
         <%= render partial: "/rqre_questionnaires/result_chart10", locals: { q: q } %>
       <% elsif q.dtype == "text" %>
         <%= render partial: "/rqre_questionnaires/result_text", locals: { q: q } %>
+      <% elsif q.dtype == "select" %>
+        <%= render partial: "/rqre_questionnaires/result_select", locals: { q: q } %>
       <% elsif %>
         error
       <% end %>

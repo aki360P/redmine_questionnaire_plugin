@@ -1,0 +1,55 @@
+<canvas id="ChartProject_<%= q.id %>" width="200" height="100"></canvas>
+<script>
+var qid = "<%= q.id %>";
+var rqre_questions = gon.rqre_questions;
+var label_data = [];
+var chart_data = [];
+var vote_data = gon.rqre_votes;
+    for (let i = 0; i < rqre_questions.length; i++){
+        if (rqre_questions[i].id == qid) {
+            var text = rqre_questions[i].option;
+            console.log(text);
+            var lines = text.split( '\n' );
+            
+            for (let l = 0; l < lines.length; l++){
+                if ( lines[l] == '' ) {
+                    continue;
+                }
+                var array = lines[l].split(":",2);
+                label_data.push(array[1].trim());
+                chart_data.push(0);
+            }
+        }
+    }
+    for (let v = 0; v < vote_data[qid].length; v++){
+        console.log (vote_data[qid][v]);
+        chart_data[vote_data[qid][v]] = chart_data[vote_data[qid][v]] + 1;
+    }
+
+
+
+var ctx = document.getElementById("ChartProject_" + qid).getContext("2d");
+var myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: label_data,
+        datasets: [{
+            label: "select",
+            spanGaps: true,
+            data: chart_data,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "royalblue",
+            pointRadius: 1,
+            backgroundColor: "royalblue",
+            fill: false
+        }]
+    },
+    options: {
+        indexAxis: 'y'
+    }
+});
+
+myChart.canvas.parentNode.style.height = '220px';
+myChart.canvas.parentNode.style.width = '400px';
+</script>

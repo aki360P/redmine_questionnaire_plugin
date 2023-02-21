@@ -91,6 +91,6 @@ class RqreQuestionsController < ApplicationController
   end
   
   def rqre_question_params
-    params.require(:rqre_question).permit(:title,:dtype)
+    params.require(:rqre_question).permit(:title,:dtype,:content,:option)
   end
 end

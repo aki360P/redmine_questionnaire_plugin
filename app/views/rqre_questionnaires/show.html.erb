@@ -60,6 +60,16 @@
         <% elsif q.dtype == "text" %>
           <% vote = "" if vote == 0 %>
           <%= text_field_tag 'answer', vote, :size => 200, :maxlength => 400 %>
+        <% elsif q.dtype == "select" %>
+          <% option = q.option%>
+          <%= radio_button_tag('answer', "null", false) %>null<br>
+          <% q.option.each_line do |line| %>
+            <% array = line.split(":",2) %>
+            <% i = array[0].to_i %>
+            <% if array[0].to_i == vote.to_i %><%= radio_button_tag('answer', i, true) %><%= array[1].strip() %><br>
+            <% else %><%= radio_button_tag('answer', i, false) %><%= array[1].strip() %><br>
+            <% end %>
+          <% end %>
         <% elsif %>
           error
         <% end %>

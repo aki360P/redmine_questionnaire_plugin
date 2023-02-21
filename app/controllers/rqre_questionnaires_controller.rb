@@ -39,8 +39,9 @@ class RqreQuestionnairesController < ApplicationController
     @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, freezed: '1')
 
 
-    gon.rqre_votes = @rqre_votes
-
+    #gon.rqre_votes = @rqre_votes
+    gon.rqre_questions = @rqre_questions
+    
     gon.rqre_votes = {}
     @rqre_votes.each do |v|
       if gon.rqre_votes[v.rqre_question_id].nil?

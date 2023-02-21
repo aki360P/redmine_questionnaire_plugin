@@ -4,15 +4,16 @@
 var qid = "<%= q.id %>";
 var vote_data = gon.rqre_votes;
 var grid_data = [];
-var rec = [];
+
 var vi = 1;
 var ans = "";
     for (let v = 0; v < vote_data[qid].length; v++){
         ans = vote_data[qid][v].trim();
         console.log (ans);
         if (ans != "") {
-            rec[0] = vi;
-            rec[1] = ans;
+            var rec = [];
+            rec.push(vi);
+            rec.push(ans);
             grid_data.push(rec);
             vi = vi + 1;
         }
