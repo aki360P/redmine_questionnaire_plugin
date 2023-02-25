@@ -2,6 +2,7 @@
 <script>
 var qid = "<%= q.id %>";
 var rqre_questions = gon.rqre_questions;
+var label_text= [];
 var label_data = [];
 var chart_data = [];
 var vote_data = gon.rqre_votes;
@@ -16,6 +17,7 @@ var vote_data = gon.rqre_votes;
                     continue;
                 }
                 var array = lines[l].split(":",2);
+                label_text.push(array[0].trim());
                 label_data.push(array[1].trim());
                 chart_data.push(0);
             }
@@ -23,7 +25,12 @@ var vote_data = gon.rqre_votes;
     }
     for (let v = 0; v < vote_data[qid].length; v++){
         console.log (vote_data[qid][v]);
-        chart_data[vote_data[qid][v]] = chart_data[vote_data[qid][v]] + 1;
+
+        for (let i=0; i < label_text.length; i++){
+            if (vote_data[qid][v] == label_text[i]){
+              chart_data[i] = chart_data[i] + 1;  
+            }
+        }
     }
 
 
