@@ -22,3 +22,5 @@ en:
   label_rqre_revote: "Revote"
   label_rqre_end: "End Date"
   label_rqre_dtype: "Data type"
+  label_rqre_content: "Content"
+  label_rqre_option: "Option"
