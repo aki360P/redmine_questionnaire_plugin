@@ -25,9 +25,16 @@ var vote_data = gon.rqre_votes;
     }
     for (let v = 0; v < vote_data[qid].length; v++){
         console.log (vote_data[qid][v]);
+        var vote = [];
+        if (vote_data[qid][v].indexOf(",") > 0){
+            vote = vote_data[qid][v].split(",");
+        } else {
+            vote.push(vote_data[qid][v]);
+        }
+                
 
         for (let i=0; i < label_text.length; i++){
-            if (vote_data[qid][v] == label_text[i]){
+            if (vote.indexOf(label_text[i]) !== -1) {
               chart_data[i] = chart_data[i] + 1;  
             }
         }
@@ -41,7 +48,7 @@ var myChart = new Chart(ctx, {
     data: {
         labels: label_data,
         datasets: [{
-            label: "select",
+            label: "checkbox",
             spanGaps: true,
             data: chart_data,
             borderWidth: 2,

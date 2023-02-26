@@ -27,6 +27,8 @@
         <%= render partial: "/rqre_questionnaires/result_text", locals: { q: q } %>
       <% elsif q.dtype == "select" %>
         <%= render partial: "/rqre_questionnaires/result_select", locals: { q: q } %>
+      <% elsif q.dtype == "checkbox" %>
+        <%= render partial: "/rqre_questionnaires/result_checkbox", locals: { q: q } %>
       <% elsif %>
         error
       <% end %>

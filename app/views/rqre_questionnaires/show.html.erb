@@ -2,6 +2,19 @@
   jQuery(document).ready(function() {
     $('input[name="answer"]').change(function() {
       var formData = $(this).parent().serialize(); // get form data
+
+      //merge answer data in check_box_tag
+      if ($(this).attr('type') == 'checkbox') {
+        //console.log("check_box_tag");
+        var vals = $('input[name=answer]:checked').map(function(){
+          return $(this).val();
+        }).get();
+        //console.log(vals);
+
+        formData = formData.substring(0,formData.indexOf("&answer="))
+        formData = formData + "&answer=" + vals;
+      }
+
       event.preventDefault(); // cancellation form POST
 
             $.ajax({
@@ -68,6 +81,16 @@
             <% i = array[0].to_i %>
             <% if array[0].to_i == vote.to_i %><%= radio_button_tag('answer', i, true) %><%= array[1].strip() %><br>
             <% else %><%= radio_button_tag('answer', i, false) %><%= array[1].strip() %><br>
+            <% end %>
+          <% end %>
+        <% elsif q.dtype == "checkbox" %>
+          <% vote_arry = vote.split(",") if vote.include?(",") %>
+          <% option = q.option%>
+          <% q.option.each_line do |line| %>
+            <% array = line.split(":",2) %>
+            <% i = array[0].to_i %>
+            <% if vote_arry.include?(array[0]) %><%= check_box_tag('answer', i, true) %><%= array[1].strip() %><br>
+            <% else %><%= check_box_tag('answer', i, false) %><%= array[1].strip() %><br>
             <% end %>
           <% end %>
         <% elsif %>
