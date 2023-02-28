@@ -5,10 +5,13 @@
 
       //merge answer data in check_box_tag
       if ($(this).attr('type') == 'checkbox') {
-        //console.log("check_box_tag");
-        var vals = $('input[name=answer]:checked').map(function(){
-          return $(this).val();
-        }).get();
+        var vals = [];
+        $(this).parent().children("input:checkbox").each(function(index, elm){
+          if (elm.checked == true){
+            vals.push(elm.value);
+          }
+        });
+
         //console.log(vals);
 
         formData = formData.substring(0,formData.indexOf("&answer="))
@@ -84,7 +87,16 @@
             <% end %>
           <% end %>
         <% elsif q.dtype == "checkbox" %>
-          <% vote_arry = vote.split(",") if vote.include?(",") %>
+          <%= hidden_field_tag(:answer, 0) %>
+          <% if vote == 0 or vote.nil? %>
+            <% vote_arry = [] %>
+          <% else %>
+            <% if vote.include?(",") %>
+              <% vote_arry = vote.split(",") %>
+            <% else %>
+              <% vote_arry = vote %>
+            <% end %>
+          <% end %>
           <% option = q.option%>
           <% q.option.each_line do |line| %>
             <% array = line.split(":",2) %>
