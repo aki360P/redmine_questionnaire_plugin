@@ -73,6 +73,13 @@
             <% else %><%= radio_button_tag('answer', i, false) %><%= i %> 　 
             <% end %>
           <% end %>
+        <% elsif q.dtype == "5" %>
+          <%= radio_button_tag('answer', "null", false) %>null 　
+          <% for i in 1..5 do %>
+            <% if i == vote.to_i %><%= radio_button_tag('answer', i, true) %><%= i %> 　
+            <% else %><%= radio_button_tag('answer', i, false) %><%= i %> 　
+            <% end %>
+          <% end %>
         <% elsif q.dtype == "text" %>
           <% vote = "" if vote == 0 %>
           <%= text_field_tag 'answer', vote, :size => 200, :maxlength => 400 %>

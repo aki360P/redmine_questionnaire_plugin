@@ -1,0 +1,35 @@
+<canvas id="ChartProject_<%= q.id %>" width="200" height="100"></canvas>
+<script>
+var qid = "<%= q.id %>";
+var chart_data = [];
+var vote_data = gon.rqre_votes;
+    for (let i = 0; i <= 5; i++){
+        chart_data[i] = 0; //initialize
+    }
+    for (let v = 0; v < vote_data[qid].length; v++){
+        console.log (vote_data[qid][v]);
+        chart_data[vote_data[qid][v]] = chart_data[vote_data[qid][v]] + 1;
+    }
+
+var ctx = document.getElementById("ChartProject_" + qid).getContext("2d");
+var myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: [0,1,2,3,4,5],
+        datasets: [{
+            label: "10分類",
+            spanGaps: true,
+            data: chart_data,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "royalblue",
+            pointRadius: 1,
+            backgroundColor: "royalblue",
+            fill: false
+        }]
+    }
+});
+
+myChart.canvas.parentNode.style.height = '220px';
+myChart.canvas.parentNode.style.width = '400px';
+</script>

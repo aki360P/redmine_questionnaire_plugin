@@ -23,6 +23,8 @@
       q_id=<%= q.id %> <%= q.title %>
       <% if q.dtype == "10" %>
         <%= render partial: "/rqre_questionnaires/result_chart10", locals: { q: q } %>
+      <% elsif q.dtype == "5" %>
+        <%= render partial: "/rqre_questionnaires/result_chart5", locals: { q: q } %>
       <% elsif q.dtype == "text" %>
         <%= render partial: "/rqre_questionnaires/result_text", locals: { q: q } %>
       <% elsif q.dtype == "select" %>
