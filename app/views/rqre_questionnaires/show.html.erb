@@ -54,11 +54,14 @@
     <% @rqre_questions.each do |q| %>
       <% vote = 0 %>
       <% @rqre_votes.each do |v| %><% vote = v[1] if v[0] == q.id %><% end %>
-      
+
+        <% if q.dtype == "separator" %>
+          <hr>
+        <% end %>
+
       <div class="box tabular">
       <%= form_with url: vote_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id), local: false do |f| %>
-        
-        <%= hidden_field_tag(:rqre_questionnaire_id, @rqre_questionnaire.id) %>
+         <%= hidden_field_tag(:rqre_questionnaire_id, @rqre_questionnaire.id) %>
         <%= hidden_field_tag(:rqre_question_id, q.id) %>
         <%= q.title %>
         <% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
@@ -112,6 +115,8 @@
             <% else %><%= check_box_tag('answer', i, false) %><%= array[1].strip() %><br>
             <% end %>
           <% end %>
+        <% elsif q.dtype == "separator" %>
+        
         <% elsif %>
           error
         <% end %>

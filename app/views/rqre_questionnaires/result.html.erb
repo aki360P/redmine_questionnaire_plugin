@@ -19,8 +19,13 @@
   </div>
   <% %>
   <% @rqre_questions.each do |q| %>
+      <% if q.dtype == "separator" %>
+        <hr>
+      <% end %>
+
     <div class="box tabular">
-      q_id=<%= q.id %> <%= q.title %>
+      <%= q.title %>
+
       <% if q.dtype == "10" %>
         <%= render partial: "/rqre_questionnaires/result_chart10", locals: { q: q } %>
       <% elsif q.dtype == "5" %>
@@ -31,6 +36,8 @@
         <%= render partial: "/rqre_questionnaires/result_select", locals: { q: q } %>
       <% elsif q.dtype == "checkbox" %>
         <%= render partial: "/rqre_questionnaires/result_checkbox", locals: { q: q } %>
+      <% elsif q.dtype == "separator" %>
+
       <% elsif %>
         error
       <% end %>
