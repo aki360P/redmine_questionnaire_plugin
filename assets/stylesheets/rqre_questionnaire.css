@@ -33,3 +33,33 @@
 .rqre div.qform {
     padding-left: 40px;
 }
+
+/* modal form */
+.rqre_saveModal { display: none; }
+
+.rqre_saveModal form label { float: left; width: 140px; text-align:left;}
+
+.formLayout
+{
+    padding: 10px;
+    overflow: hidden;
+}
+ 
+.formLayout label, .formLayout input, .formLayout select
+{
+    display: block;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.formLayout label
+{
+    width: 140px;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.formLayout input, .formLayout select 
+{	
+    width: 200px;
+}

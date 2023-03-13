@@ -1,38 +1,6 @@
-<script>
-  jQuery(document).ready(function() {
-    $('input[name="answer"]').change(function() {
-      var formData = $(this).parent().serialize(); // get form data
-
-      //merge answer data in check_box_tag
-      if ($(this).attr('type') == 'checkbox') {
-        var vals = [];
-        $(this).parent().children("input:checkbox").each(function(index, elm){
-          if (elm.checked == true){
-            vals.push(elm.value);
-          }
-        });
-
-        //console.log(vals);
-
-        formData = formData.substring(0,formData.indexOf("&answer="))
-        formData = formData + "&answer=" + vals;
-      }
-
-      event.preventDefault(); // cancellation form POST
-
-            $.ajax({
-                type : "POST",
-                url  : location.href + "/vote",
-                data : formData,
-                dataType : "text"
-            })
-    });
-  });
-</script>
-
-
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "rqre_questionnaire.css", plugin: "redmine_questionnaire_plugin" %>
+  <%= javascript_include_tag "rqre_questionnaire.js", plugin: "redmine_questionnaire_plugin" %>
 <% end %>
 
 <div class='rqre'>
@@ -148,7 +116,22 @@
       <% end %>
     </div>
 
-    <%= link_to l(:label_rqre_vote), confirm_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id) %>
+    <%= link_to l(:label_rqre_vote), confirm_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id), id: "rqre_confirm" %>
   </div>
-  
+
+
+
+</div>
+
+<!-- confirm modal -->
+<div class="rqre_saveModal">
+	<div class="formLayout">
+    <div id="rqre_saveModal_ajax">
+    loading...
+    </div>
+    <br>
+    <%= form_with url: vote_freeze_project_rqre_questionnaire_path(@project.id, @rqre_questionnaire.id) do |f| %>
+      <%= f.submit l(:label_rqre_vote) %>
+    <% end %>
+  </div>
 </div>

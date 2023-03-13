@@ -118,6 +118,13 @@ class RqreQuestionnairesController < ApplicationController
 
     #find existing answer
     @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, user_id: @user.id)
+
+
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @rqre_votes }
+      format.json { render :json => @rqre_votes }
+    end
   end
 
   def vote_freeze
