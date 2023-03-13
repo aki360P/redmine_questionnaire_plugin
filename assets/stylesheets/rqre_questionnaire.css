@@ -1,0 +1,35 @@
+
+/*------------ plugin settings -----------------*/
+.rqre.abstract {
+    background: aliceblue;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.rqre.question {
+    max-width: 1000px;
+    padding: 20px;
+}
+
+.rqre > div.wrapper {
+    clear: both;
+}
+
+.rqre label {
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.rqre div.right {
+    float: right;
+    padding-left: 20px;
+    width: 20%;
+}
+
+.rqre div.wiki {
+    padding-left: 20px;
+}
+
+.rqre div.qform {
+    padding-left: 40px;
+}
