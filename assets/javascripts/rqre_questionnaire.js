@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
 
 		  $('#rqre_saveModal_ajax').html("");
 		  for (let i=0; i<res.length; i++) {
-			var str = "<p>question_id=" + res[i].id + ", answer=" + res[i].answer +"</p>";			
+			var str = "<p>question_id=" + res[i].rqre_question_id + ", answer=" + res[i].answer +"</p>";			
 			$('#rqre_saveModal_ajax').append(str);
 			}
 

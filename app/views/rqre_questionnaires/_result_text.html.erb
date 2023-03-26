@@ -1,4 +1,4 @@
-<div id="gridContainer" width="500px" height="100px"></div>
+<div id="gridContainer_<%= q.id %>" width="500px" height="100px"></div>
 
 <script>
 var qid = "<%= q.id %>";
@@ -22,6 +22,6 @@ var ans = "";
 new gridjs.Grid({
   columns: ['No.', 'answer'],
   data: grid_data,
-}).render(document.getElementById('gridContainer'));
+}).render(document.getElementById('gridContainer_' + qid));
 
 </script>
