@@ -4,7 +4,7 @@ Redmine::Plugin.register :redmine_questionnaire_plugin do
   name 'Redmine questionnaire plugin'
   author 'Akinori Iwasaki'
   description 'Add questionnaire function'
-  version '0.1.0'
+  version '0.3.0'
   url 'https://github.com/aki360P/redmine_questionnaire_plugin'
   
   project_module :redmine_questionnaire_plugin do
