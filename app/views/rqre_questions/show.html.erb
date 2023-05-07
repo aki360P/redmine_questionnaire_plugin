@@ -1,18 +1,30 @@
-<div class='rqre_question'>
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "rqre_questionnaire.css", plugin: "redmine_questionnaire_plugin" %>
+  <%= javascript_include_tag "rqre_question.js", plugin: "redmine_questionnaire_plugin" %>
+<% end %>
+
+
+
+<div class='rqre'>
 
 <h2>Question Form</h2>
   <%= form_for @rqre_question, url: rqre_question_path(@rqre_question) do %>
   <div class="box tabular">
     <%= hidden_field_tag('rqre_question[rqre_questionnaire_id]', @rqre_question['questionnaire_id']) %>
     <p><%= label_tag('rqre_question[title]', l(:label_rqre_title)) %><%= text_field_tag('rqre_question[title]', @rqre_question['title']) %></p>
-    <p><%= label_tag('rqre_question[dtype]', l(:label_rqre_dtype)) %><%= select_tag('rqre_question[dtype]', options_for_select(["","10","5","checkbox","select","text","separator"], @rqre_question['dtype'])) %></p>
+    <p><%= label_tag('rqre_question[dtype]', l(:label_rqre_dtype)) %><%= select_tag('rqre_question[dtype]', options_for_select(["","10","5","checkbox","select","text","separator"], @rqre_question['dtype']), :required => true) %></p>
     <p>
       <%= label_tag('rqre_question[content]', l(:label_rqre_content)) %>
       <%= text_area_tag('rqre_question[content]', @rqre_question['content'], size: '40x3', class: 'wiki-edit') %><br>
       <%= wikitoolbar_for "rqre_question_content" %>
     </p>
-    <p><%= label_tag('rqre_question[option]', l(:label_rqre_option)) %><%= text_area_tag('rqre_question[option]', @rqre_question['option']) %></p>
-    <%= submit_tag l(:button_save) %>
+    <p>
+      <%= label_tag('rqre_question[option]', l(:label_rqre_option)) %>
+      <%= text_area_tag('rqre_question[option]', @rqre_question['option'], :rows => 7) %>
+      <br>This field should be separated by a line break for each input, and the value and content should be separated by a colon ":"
+      <br><u>Example.</u><br>1:Great<br>2:OK <br>3:Bad
+    </p>
+    <%= submit_tag l(:button_save), :id => 'rqre_btn' %>
   </div>
   <% end %>
 </div>

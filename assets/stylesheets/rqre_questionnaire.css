@@ -38,6 +38,16 @@
     display: none;
 }
 
+.rqre .non-display {
+    display: none;
+}
+
+.rqre textarea.err {
+	color: #630015 !important;
+	border-color: #c20c33 !important;
+	background-color: #ffd9e1 !important;
+}
+
 /* modal form */
 .rqre_saveModal { display: none; }
 
