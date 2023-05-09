@@ -21,7 +21,7 @@
     <div class="wrapper">
       <div class="right">
         <p><%= label_tag('rqre_questionnaires[revote]', l(:label_rqre_revote)) %><%= @rqre_questionnaire['revote'] %></p>
-        <p><%= label_tag('rqre_questionnaires[end]', l(:label_rqre_end)) %><%= @rqre_questionnaire['end'].to_date %></p>
+        <p><%= label_tag('rqre_questionnaires[end]', l(:label_rqre_end)) %><span id="rqre_end"><%= @rqre_questionnaire['end'].to_date %></span></p>
       </div>
       
       <div class="wiki"><%= textilizable @rqre_questionnaire['description'] %></div>

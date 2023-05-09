@@ -23,6 +23,11 @@ class RqreQuestionnairesController < ApplicationController
     #show a questionnaire
     id = params[:id]
     @rqre_questionnaire = RqreQuestionnaire.find(id)
+    
+    if vote_revote?(id)
+    else
+      redirect_to project_rqre_questionnaires_path(@project)
+    end
 
     #show questions
     #sort with question title (title may begin with sort key)
@@ -34,22 +39,30 @@ class RqreQuestionnairesController < ApplicationController
 
   def result
     id = params[:id]
-    @rqre_questionnaire = RqreQuestionnaire.find(id)
-    @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
-    @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, freezed: '1')
+
+    if vote_exist?(id,@user.id) then
+
+      @rqre_questionnaire = RqreQuestionnaire.find(id)
+      @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
+      @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, freezed: '1')
 
 
-    #gon.rqre_votes = @rqre_votes
-    gon.rqre_questions = @rqre_questions
-    
-    gon.rqre_votes = {}
-    @rqre_votes.each do |v|
-      if gon.rqre_votes[v.rqre_question_id].nil?
-        gon.rqre_votes[v.rqre_question_id] =[]
-      end 
-      gon.rqre_votes[v.rqre_question_id] = gon.rqre_votes[v.rqre_question_id].push(v.answer)
+      #gon.rqre_votes = @rqre_votes
+      gon.rqre_questions = @rqre_questions
+      
+      gon.rqre_votes = {}
+      @rqre_votes.each do |v|
+        if gon.rqre_votes[v.rqre_question_id].nil?
+          gon.rqre_votes[v.rqre_question_id] =[]
+        end 
+        gon.rqre_votes[v.rqre_question_id] = gon.rqre_votes[v.rqre_question_id].push(v.answer)
+      end
+
+    #without existing vote 
+    elsif
+      #redirect to vote page
+      redirect_to project_rqre_questionnaire_path(@project, id)
     end
-
   end
 
 
@@ -172,6 +185,32 @@ class RqreQuestionnairesController < ApplicationController
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+
+  def vote_exist?(id, userid)
+    rqre_vote = RqreVote.where(rqre_questionnaire_id: id, rqre_question_id: '0', freezed: '1', user_id: @user.id).first
+
+    if rqre_vote.nil?
+      return false
+    else
+      return true
+    end
+  end
+
+  def vote_revote?(id)
+    rqre_qusetionnaire = RqreQuestionnaire.find(id)
+
+    if Time.now <= rqre_qusetionnaire.end 
+      if rqre_qusetionnaire.revote?
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+    
   end
 
   def rqre_questionnaire_params

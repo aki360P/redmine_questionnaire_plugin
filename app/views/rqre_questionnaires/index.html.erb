@@ -20,21 +20,27 @@ create new <%link_to %>
 <table class="list boards">
   <thead><tr>
     <th><%= l(:label_rqre_title) %></th>
-    <th><%= l(:label_rqre_end_datetime) %></th>
+    <th><%= l(:label_rqre_end) %></th>
+    <th><%= l(:label_rqre_voting) %></th>
     <th><%= l(:label_rqre_vote) %></th>
   </tr></thead>
   <tbody>
 <% @rqre_questionnaires.each do |r| %>
   <% count = 0 %>
+  <% me = 0 %>
   <% @rqre_votes.each do |v| %>
     <% if r.id == v.rqre_questionnaire_id %><% count = count + 1 %><% end %>
+    <% if r.id == v.rqre_questionnaire_id && @user.id == v.user_id %><% me = 1 %><% end %>
   <% end %>
+  <% expire = 0 %>
+  <% if Time.now < r.end %><% expire = 1 %><% end %>
 
   <tr class="board">
     <td class="name"><%= link_to r.title, project_rqre_questionnaire_path(r.project, r), :class => "board" %>
       <p class="description"><%= r.note %></p></td>
-    <td class="end"><%= r.end %></td>
-    <td><%= count %><%= link_to '回答を見る', controller: "rqre_questionnaires", action: "result", project_id: r.project, id: r %></td>
+    <td class="end"><%= r.end.to_date %></td>
+    <td><% if me == 1 %>回答済み<% else %><% if expire == 1 %><%= link_to '回答する', project_rqre_questionnaire_path(r.project, r) %><% end %><% end %></td>
+    <td><%= count %> <% if me == 1 %><%= link_to '回答を見る', controller: "rqre_questionnaires", action: "result", project_id: r.project, id: r %><% end %></td>
   </tr>
   
 <% end %>

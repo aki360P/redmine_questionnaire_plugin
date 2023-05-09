@@ -1,4 +1,12 @@
 jQuery(document).ready(function($) {
+    // end_date
+	var end_date = document.getElementById('rqre_end').innerHTML;
+	console.log(end_date);
+	var input_fields = document.getElementsByClassName('rqre');
+	//input_fields.forEach(function(elem,i){
+    //  console.log(elem.value);
+	//});
+
 
 	// send answer ajax
     $('input[name="answer"]').change(function() {
