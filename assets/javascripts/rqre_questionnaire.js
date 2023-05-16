@@ -1,11 +1,14 @@
 jQuery(document).ready(function($) {
     // end_date
 	var end_date = document.getElementById('rqre_end').innerHTML;
-	console.log(end_date);
-	var input_fields = document.getElementsByClassName('rqre');
-	//input_fields.forEach(function(elem,i){
-    //  console.log(elem.value);
-	//});
+	    end_date = new Date(end_date);
+	var today = new Date();
+	if (end_date <= today ) {  
+		var input_fields = document.getElementsByName('answer');
+		input_fields.forEach(function(elm,i){
+		elm.setAttribute("disabled", true);
+		});
+	}
 
 
 	// send answer ajax

@@ -23,11 +23,6 @@ class RqreQuestionnairesController < ApplicationController
     #show a questionnaire
     id = params[:id]
     @rqre_questionnaire = RqreQuestionnaire.find(id)
-    
-    if vote_revote?(id)
-    else
-      redirect_to project_rqre_questionnaires_path(@project)
-    end
 
     #show questions
     #sort with question title (title may begin with sort key)
