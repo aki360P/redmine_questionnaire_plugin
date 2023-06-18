@@ -1,11 +1,12 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "mermaid.min.css", plugin: "redmine_questionnaire_plugin" %>
+  <%= stylesheet_link_tag "rqre_questionnaire.css", plugin: "redmine_questionnaire_plugin" %>
   <%= include_gon %>
   <%= javascript_include_tag "Chart.min.js", plugin: "redmine_questionnaire_plugin" %>
   <%= javascript_include_tag "gridjs.umd.js", plugin: "redmine_questionnaire_plugin" %>
 <% end %>
 
-<div class='rqre_questionnarie'>
+<div class='rqre_result'>
 
 <h2>Questionnarie Form</h2>
 
@@ -23,7 +24,7 @@
         <hr>
       <% end %>
 
-    <div class="box tabular">
+    <div class="box tabular chart">
       <%= q.title %>
 
       <% if q.dtype == "10" %>
