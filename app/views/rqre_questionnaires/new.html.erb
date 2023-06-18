@@ -13,6 +13,9 @@
     </p>
     <p><%= label_tag('rqre_questionnaires[revote]', l(:label_rqre_revote)) %><%= select_tag('rqre_questionnaires[revote]', options_for_select([['enable', true],['disable', false]], @rqre_questionnaire['revote'])) %></p>
     <p><%= label_tag('rqre_questionnaires[end]', l(:label_rqre_end)) %><%= date_field_tag('rqre_questionnaires[end]', @rqre_questionnaire['end'].to_date, :size => 10) %><%= calendar_for('rqre_questionnaires[end]') %></p>
+    <div>
+    <p><label><%=l(:label_attachment_add)%></label><%= render :partial => 'attachments/form' %></p>
+    </div>
     <%= submit_tag l(:button_save) %>
   </div>
   <% end %>

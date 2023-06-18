@@ -2,7 +2,10 @@ class RqreQuestionnairesController < ApplicationController
   unloadable
   before_action :require_login
   before_action :find_user, :find_project
-  #before_action :authorize
+  before_action :authorize
+
+  helper :attachments
+  include AttachmentsHelper
 
   def initialize
     super()
@@ -27,6 +30,9 @@ class RqreQuestionnairesController < ApplicationController
     #show questions
     #sort with question title (title may begin with sort key)
     @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)
+
+    @attachment = @rqre_questionnaire.attachments.all.sort_by(&:created_on)
+    @attachments = Attachment.where(container_type: 'RqreQuestion', container_id: @rqre_questions.ids)
 
     #find existing answer
     @rqre_votes = RqreVote.where(rqre_questionnaire_id: id, user_id: @user.id).pluck(:rqre_question_id, :answer)
@@ -87,6 +93,7 @@ class RqreQuestionnairesController < ApplicationController
       
       rqre_questionnaire.update(rqre_questionnaire_params)
       rqre_questionnaire.save
+      attachments = attach(rqre_questionnaire, params[:attachments])
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_rqre_questionnaire_path(@project, params[:id])
     end
@@ -214,6 +221,16 @@ class RqreQuestionnairesController < ApplicationController
 
   def rqre_vote_params
     params.permit(:rqre_questionnaire_id, :rqre_question_id, :answer)
+  end
+
+
+  def attach(target, attachments)
+    if Attachment.respond_to?(:attach_files)
+      Attachment.attach_files(target, attachments)
+      #render_attachment_warning_if_needed(target)
+    else
+      attach_files(target, attachments)
+    end
   end
 
 end

@@ -24,6 +24,9 @@
       <br>This field should be separated by a line break for each input, and the value and content should be separated by a colon ":"
       <br><u>Example.</u><br>1:Great<br>2:OK <br>3:Bad
     </p>
+    <div>
+    <p><label><%=l(:label_attachment_add)%></label><%= render :partial => 'attachments/form' %></p>
+    </div>
     <%= submit_tag l(:button_save), :id => 'rqre_btn' %>
   </div>
   <% end %>

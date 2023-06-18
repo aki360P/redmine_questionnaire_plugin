@@ -8,8 +8,10 @@ Redmine::Plugin.register :redmine_questionnaire_plugin do
   url 'https://github.com/aki360P/redmine_questionnaire_plugin'
   
   project_module :redmine_questionnaire_plugin do
-    permission :rqre_questionnaires_view, :rqre_questionnaires => [:index, :show]
-    permission :rqre_questionnaires_edit, :rqre_questionnaires => [:edit, :update, :new, :create]
+    permission :view_rqre_questionnaires, {:rqre_questionnaires => [:index, :show]}
+    permission :edit_rqre_questionnaires, {:rqre_questionnaires => [:edit, :update, :new, :create], :rqre_questions => [:edit, :update, :new, :create]}
+    #permission :view_rqre_questionnaires, :rqre_questionnaires => [:index, :show]
+    permission :view_rqre_questions, :rqre_questions => [:index, :show]
   end
   
   

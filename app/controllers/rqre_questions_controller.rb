@@ -1,12 +1,22 @@
 class RqreQuestionsController < ApplicationController
   unloadable
-  #before_action :require_login
+  before_action :require_login
+
   before_action :find_user
-  before_action :find_project, :except => [:show, :edit, :update, :destroy, :result_question]
-  before_action :find_rqre_questionnaire, :except => [:show, :edit, :update, :destroy, :result_question]
-  #before_action :authorize
+  before_action :find_project
+  before_action :find_rqre_questionnaire
+  #before_action :find_project, :except => [:show, :edit, :update, :destroy, :result_question]
+  #before_action :find_rqre_questionnaire, :except => [:show, :edit, :update, :destroy, :result_question]
+  before_action :authorize
 
+  helper :attachments
+  include AttachmentsHelper
+  #acts_as_attachable :after_add => :attachment_added, :after_remove => :attachment_removed
 
+  def initialize
+    super()
+  end
+  
   def index
   end
 
@@ -40,6 +50,8 @@ class RqreQuestionsController < ApplicationController
       
       rqre_question.update(rqre_question_params)
       rqre_question.save
+
+      attachments = attach(rqre_question, params[:attachments])
       flash[:notice] = l(:notice_successful_update)
 
       rqre_questionnaire = RqreQuestionnaire.find(rqre_question.rqre_questionnaire_id)
@@ -93,4 +105,15 @@ class RqreQuestionsController < ApplicationController
   def rqre_question_params
     params.require(:rqre_question).permit(:title,:dtype,:content,:option)
   end
+
+  def attach(target, attachments)
+    if Attachment.respond_to?(:attach_files)
+      Attachment.attach_files(target, attachments)
+      #render_attachment_warning_if_needed(target)
+    else
+      attach_files(target, attachments)
+    end
+  end
+
+
 end
