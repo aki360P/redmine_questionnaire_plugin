@@ -34,6 +34,14 @@
     padding-left: 40px;
 }
 
+.rqre #autofocus {
+    display: none;
+}
+
+.rqre .non-display {
+    display: none;
+}
+
 .rqre_result div.chart {
     resize: both;
     overflow: hidden;
