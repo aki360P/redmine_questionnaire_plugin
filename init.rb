@@ -10,8 +10,7 @@ Redmine::Plugin.register :redmine_questionnaire_plugin do
   project_module :redmine_questionnaire_plugin do
     permission :view_rqre_questionnaires, {:rqre_questionnaires => [:index, :show]}
     permission :edit_rqre_questionnaires, {:rqre_questionnaires => [:edit, :update, :new, :create], :rqre_questions => [:edit, :update, :new, :create]}
-    #permission :view_rqre_questionnaires, :rqre_questionnaires => [:index, :show]
-    permission :view_rqre_questions, :rqre_questions => [:index, :show]
+    permission :view_rqre_questions, {:rqre_questions => [:index, :show], :rqre_questionnaires => [:vote, :confirm, :result, :vote_freeze]}  #permission name can't be changed because it connects to attachments controller. This permission is used as a voting permission
   end
   
   
