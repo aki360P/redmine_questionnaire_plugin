@@ -41,7 +41,7 @@ class RqreQuestionnairesController < ApplicationController
   def result
     id = params[:id]
 
-    if vote_exist?(id,@user.id) then
+    if vote_exist?(id,@user.id) || User.current.allowed_to?(:edit_rqre_questionnaires, @project) then
 
       @rqre_questionnaire = RqreQuestionnaire.find(id)
       @rqre_questions = RqreQuestion.where("rqre_questionnaire_id = ?", id).order(title: :asc)

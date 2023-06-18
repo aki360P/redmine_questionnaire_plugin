@@ -11,7 +11,7 @@
 This plugin is questionnarie plugin.<br/>
 <br>
 create new <%link_to %>
-<% if User.current.allowed_to?(:rqre_questionnaires_edit, @project) %>
+<% if User.current.allowed_to?(:edit_rqre_questionnaires, @project) %>
     <%= link_to l(:label_rqre_new), new_project_rqre_questionnaire_path(@project), :class => 'icon icon-add' %>
   <% end %>
 <br>
@@ -40,7 +40,7 @@ create new <%link_to %>
       <p class="description"><%= r.note %></p></td>
     <td class="end"><%= r.end.to_date %></td>
     <td><% if me == 1 %>回答済み<% else %><% if expire == 1 %><%= link_to '回答する', project_rqre_questionnaire_path(r.project, r) %><% end %><% end %></td>
-    <td><%= count %> <% if me == 1 %><%= link_to '回答を見る', controller: "rqre_questionnaires", action: "result", project_id: r.project, id: r %><% end %></td>
+    <td><%= count %> <% if me == 1 || User.current.allowed_to?(:edit_rqre_questionnaires, @project) %><%= link_to '回答を見る', controller: "rqre_questionnaires", action: "result", project_id: r.project, id: r %><% end %></td>
   </tr>
   
 <% end %>
