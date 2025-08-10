@@ -1,5 +1,5 @@
 class RqreQuestionsController < ApplicationController
-  unloadable
+  #unloadable
   before_action :require_login
 
   before_action :find_user
